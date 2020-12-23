@@ -1,11 +1,12 @@
 public class Cell {
 
-    private Boolean visited;
-    private Boolean walls[];  // top, right, bottom, left
+    private boolean visited;
+    private boolean marked;
+    private boolean walls[];  // top, right, bottom, left
 
     public Cell() {
         visited = false;
-        walls = new Boolean[] {true, true, true, true};
+        walls = new boolean[] {true, true, true, true};
     }
 
     public boolean hasWall(int wallPos) {
@@ -16,9 +17,11 @@ public class Cell {
         walls[wallPos] = false;
     }
 
-    public void makeVisited() {
+    public void markVisited() {
         visited = true;
     }
+
+    public boolean isMarked() { return marked; }
 
     public boolean isVisited() {
         return visited;

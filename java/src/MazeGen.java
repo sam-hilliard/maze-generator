@@ -12,34 +12,47 @@ public class MazeGen {
         }
     }
 
-    /**
-     * Creates the divisions appearing across one row of the maze. Ceilings have
-     * different ascii representation than walls, so a boolean is used to switch between
-     * construction methods. Used as a helper method in teh toString method that creates
-     * an ascii representation of the entire maze.
-     * @param cells  an array of cell objects that will have the borders constructed around them
-     * @param isCeiling  determines which ascii representation of a separator to use
-     * @return String  the ascii representation of the separator to added to output
-     */
-    private String buildWalls(Cell[] cells, boolean isCeiling) {
-        String walls = "";
-        int index = 0;
-        int wallPos = isCeiling ? 0 : 3;
+    private StringBuilder addRow(Cell[] cells, boolean isHorizontal, boolean isBottomBorder) {
+        StringBuilder row = new StringBuilder();
 
-        while (index < cells.length) {
-            Cell cell = cells[index];
-            if (cell.hasWall(wallPos)) {
-                if (wallPos == 0) {
-                    walls += String.format("%4s", "*---");
+        for (int i = 0; i < cells.length; i++) {
+            Cell cell = cells[i];
+
+            // horizontal separation
+            if (isHorizontal) {
+                int wallPos = isBottomBorder ? 3 : 0;
+
+                row.append("+");
+                if (cell.hasWall(wallPos)) {
+                    row.append("---");
                 }
-                else {
-                    walls += String.format("%-4s", "|");
+
+                // remaining '+' that gets left out
+                if (i == cells.length - 1) {
+                    row.append("+");
                 }
             }
-            index++;
-        }
+            //vertical separation
+            else {
+                if (cell.hasWall(3)) {
+                    row.append(String.format("%-2s", "|"));
+                }
 
-        return walls;
+                if (cell.isMarked()) {
+                    row.append(String.format("%-2s","*"));
+                } else {
+                    row.append(String.format("%-2s"," "));
+                }
+
+                // remaining '|' that gets left out
+                if (i == cells.length - 1 && cell.hasWall(1)) {
+                    row.append(String.format("%-2s", "|"));
+                }
+            }
+        }
+        row.append("\n");
+
+        return row;
     }
 
     /**
@@ -47,15 +60,18 @@ public class MazeGen {
      * @return String an ascii representation of the maze.
      */
     public String toString() {
-        String output = "";
+        StringBuilder output = new StringBuilder();
 
-        for (Cell[] cells : maze) {
-            output += buildWalls(cells, true);
-            output += "\n";
-            output += buildWalls(cells, false);
-            output += "\n";
+        for (Cell[] cells: maze) {
+            // walls above
+            output.append(addRow(cells, true, false));
+
+            // walls to the left
+            output.append(addRow(cells, false, false));
         }
+        // adding bottom border
+        output.append(addRow(maze[maze.length - 1], true, true));
 
-        return output;
+        return output.toString();
     }
 }
