@@ -1,7 +1,6 @@
 public class Cell {
 
     private boolean visited;
-    private boolean marked;
     private boolean walls[];  // top, right, bottom, left
 
     public Cell() {
@@ -13,17 +12,11 @@ public class Cell {
         return walls[wallPos];
     }
 
-    public void destroyWall(int wallPos) {
-        walls[wallPos] = false;
+    public boolean isVisited() {
+        return visited;
     }
 
     public void markVisited() {
         visited = true;
-    }
-
-    public boolean isMarked() { return marked; }
-
-    public boolean isVisited() {
-        return visited;
     }
 }
