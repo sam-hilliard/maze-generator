@@ -1,5 +1,7 @@
-A simple maze generator by Sam Hilliard. Implements Randomized Prim's
-Algorithm in Java to create a maze displayed by the command line. Future versions
-might use a GUI to display the maze. The maze's height and width will
-be specified yb user input and will be completely randomized upon each
-run. The generated maze will then be solved by another program, most likely.
+A maze generator and solver GUI
+By Sam Hilliard
+
+This application creates a GUI for the user to automatically generate mazes
+using the Depth-First-Search algorithm and solve mazes using the Breadth-
+First-Search algorithm. A fairly simple interface involves two buttons allowing
+the user to generate and solve mazes of a fixed size.

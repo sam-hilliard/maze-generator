@@ -1,6 +1,14 @@
-import java.awt.*;
-import java.awt.event.ActionListener;
 import javax.swing.*;
+
+/**
+ * The main implementation of the GUI of the application. Allows the
+ * user to intuitively interact with the application by being able to
+ * command the application to generate and solve mazes. These mazes are then
+ * displayed graphically to the user.
+ *
+ * @author Sam Hilliard
+ * @version 0.0
+ */
 
 public class App {
 
@@ -18,7 +26,10 @@ public class App {
         btn_solve = new JButton("Solve");
     }
 
-    public void initUI() {
+    /**
+     * Configures the GUI to be displayed to the user.
+     */
+    public void init() {
         btn_generate.addActionListener(e -> display.drawMaze((new MazeGen(65, 100)).getMaze()));
 
         btn_container.setLayout(new BoxLayout(btn_container, BoxLayout.X_AXIS));
