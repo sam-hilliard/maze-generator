@@ -30,7 +30,7 @@ public class App {
      * Configures the GUI to be displayed to the user.
      */
     public void init() {
-        btn_generate.addActionListener(e -> display.drawMaze((new MazeGen(65, 100)).getMaze()));
+        btn_generate.addActionListener(e -> display.drawMaze((new MazeGen(65, 100)).generate()));
 
         btn_container.setLayout(new BoxLayout(btn_container, BoxLayout.X_AXIS));
         btn_container.add(btn_generate);

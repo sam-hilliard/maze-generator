@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * Implements the Depth-First-Search Algorithm to
  * generate a maze of specified height and width.
@@ -19,6 +21,21 @@ public class MazeGen {
                 maze[i][j] = new Cell();
             }
         }
+    }
+
+    public Cell[][] generate() {
+        getStartCell();
+
+        return maze;
+    }
+
+    private void getStartCell() {
+        Random randGen = new Random();
+        int randRow = randGen.nextInt(maze.length);
+
+        Cell start = maze[randRow][0];
+        start.makeStart();
+        start.markVisited();
     }
 
     public Cell[][] getMaze() {

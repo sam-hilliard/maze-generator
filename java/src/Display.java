@@ -14,7 +14,7 @@ public class Display extends Canvas {
 
     public Display() {
         setBackground(Color.LIGHT_GRAY);
-        setSize(1202, 782);
+        setSize(1101, 716);
         maze = new Cell[0][0];
     }
 
@@ -26,17 +26,96 @@ public class Display extends Canvas {
      */
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.DARK_GRAY);
 
-        int x = 2, y = 2;
+        // padding for the maze
+        final int OFFSET = 1;
+        final int SIDE_LEN = 10;
+        int x = OFFSET, y = OFFSET;
         for (int i = 0; i < maze.length; i++) {
             for (int j = 0; j < maze[i].length; j++) {
-                g.fillRect(x, y, 10, 10);
-                x += 12;
+                Cell cell = maze[i][j];
+
+                // cell drawn here
+                g.setColor(getCellColor(cell));
+                g.fillRect(x, y, SIDE_LEN, SIDE_LEN);
+
+                // wall drawn here
+                g.setColor(Color.CYAN);
+                int xOffset = x + SIDE_LEN;
+                int yOffset = y + SIDE_LEN;
+                if (isGap(i, j, true)) {
+                    g.drawLine(xOffset, y, xOffset, yOffset);
+                }
+                if (isGap(i, j, false)) {
+                    xOffset += OFFSET;
+                    g.drawLine(x, yOffset, xOffset, yOffset);
+                }
+
+                x += SIDE_LEN + OFFSET;
             }
-            x = 2;
-            y += 12;
+            x = OFFSET;
+            y += SIDE_LEN + OFFSET;
         }
+    }
+
+    /**
+     * Determines the color the cell to be drawn.
+     * blue = path, grey = wall, green = start, red = end; yellow = solution
+     * @param cell  the current cell of the maze used to determine what color
+     *              it should be painted
+     * @return Color  the color the cell should be painted
+     */
+    private Color getCellColor(Cell cell) {
+        Color cellColor;
+
+        if (cell.isVisited()) {
+            cellColor = Color.CYAN;
+
+            if (cell.isStart()) {
+                cellColor = Color.GREEN;
+            }
+
+            if (cell.isEnd()) {
+                cellColor = Color.RED;
+            }
+        }
+        else {
+            cellColor = Color.DARK_GRAY;
+        }
+
+        return cellColor;
+    }
+
+    /**
+     * Checks to see whether or not there is a gap between two cells.
+     * In other words: is there a path connecting the nodes?
+     * @param row  the row number the cell is stored at in the maze
+     * @param col  the column number the cell is stored at in the maze
+     * @param isVert  input as true if we want to check for a vertical wall
+     *                 and false if checking for a horizontal wall
+     * @return boolean  results to true if there is a gap between two cells and
+     *                  false otherwise
+     */
+    private boolean isGap(int row, int col, boolean isVert) {
+        Cell current = maze[row][col];
+        Cell neighbor;
+
+        // checking for gap to the right
+        if (isVert) {
+            if (col + 1 < maze[row].length) {
+                neighbor = maze[row][col + 1];
+                return !current.hasWall(1) && !neighbor.hasWall(3);
+            }
+        }
+        // checking for gap below
+        else {
+            if (row + 1 < maze.length) {
+                neighbor = maze[row + 1][col];
+                return !current.hasWall(2) && !neighbor.hasWall(3);
+            }
+        }
+
+        return false;
     }
 
     /**

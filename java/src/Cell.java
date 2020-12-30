@@ -9,11 +9,13 @@
  */
 public class Cell {
 
-    private boolean visited;
+    private boolean visited, start, end;
     private boolean walls[];  // top, right, bottom, left
 
     public Cell() {
         visited = false;
+        start = false;
+        end = false;
         walls = new boolean[] {true, true, true, true};
     }
 
@@ -25,7 +27,13 @@ public class Cell {
         return visited;
     }
 
-    public void markVisited() {
-        visited = true;
-    }
+    public boolean isStart() { return start; }
+
+    public boolean isEnd() { return end; }
+
+    public void makeStart() { start = true; }
+
+    public void makeEnd() { end = true; }
+
+    public void markVisited() { visited = true; }
 }
