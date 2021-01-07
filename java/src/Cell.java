@@ -11,12 +11,15 @@ public class Cell {
 
     private boolean visited, start, end;
     private boolean walls[];  // top, right, bottom, left
+    public int row, col;
 
-    public Cell() {
+    public Cell(int row, int col) {
         visited = false;
         start = false;
         end = false;
         walls = new boolean[] {true, true, true, true};
+        this.row = row;
+        this.col = col;
     }
 
     public boolean hasWall(int wallPos) {
